@@ -113,7 +113,7 @@ def get_course_classes():
     return jsonify({"status": "success", "courseClasses": classes})
 
 # Ruta POST pentru inserarea unui chat prompt
-@app.route('/chatPrompt', methods=['POST'])
+@app.route('/sample-page', methods=['POST'])
 def post_chat_prompt():
     data = request.get_json() or {}
     text = data.get("text", "").strip()
