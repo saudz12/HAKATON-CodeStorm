@@ -1,0 +1,37 @@
+{
+    "users": [
+        {
+            "userID": 1,
+            "username": "john_doe",
+            "password": "secret123",
+            "_id": "67f014b7a3f2df4b7bff297d"
+        }
+    ],
+    "courses": [
+        {
+            "courseID": 101,
+            "courseName": "Introducere în Matematică",
+            "specializationID": 201,
+            "_id": "67f014b7a3f2df4b7bff297e"
+        }
+    ],
+    "specializations": [
+        {
+            "specializationID": 201,
+            "specializationName": "Științe exacte",
+            "_id": "67f014b7a3f2df4b7bff297f"
+        }
+    ],
+    "lectures": [
+        {
+            "lectureName": "Noțiuni de bază în algebra",
+            "_id": "67f014b7a3f2df4b7bff2980"
+        }
+    ],
+    "chatPrompts": [
+        {
+            "chat": "Bună ziua, cum te pot ajuta astăzi?",
+            "_id": "67f014b7a3f2df4b7bff2981"
+        }
+    ]
+}
