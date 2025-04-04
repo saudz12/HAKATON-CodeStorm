@@ -38,13 +38,13 @@ export const NavigationItems: NavigationItem[] = [
   },
   {
     id: 'authentication',
-    title: 'Authentication',
+    title: 'Documents',
     type: 'group',
     icon: 'icon-navigation',
     children: [
       {
         id: 'login',
-        title: 'Login',
+        title: 'Cursuri',
         type: 'item',
         classes: 'nav-item',
         url: '/login',
@@ -52,19 +52,9 @@ export const NavigationItems: NavigationItem[] = [
         target: true,
         breadcrumbs: false
       },
-      {
-        id: 'register',
-        title: 'Register',
-        type: 'item',
-        classes: 'nav-item',
-        url: '/register',
-        icon: 'profile',
-        target: true,
-        breadcrumbs: false
-      }
     ]
   },
-  {
+  /*{
     id: 'utilities',
     title: 'UI Components',
     type: 'group',
@@ -97,7 +87,7 @@ export const NavigationItems: NavigationItem[] = [
         external: true
       }
     ]
-  },
+  }*/,
 
   {
     id: 'other',
@@ -107,22 +97,12 @@ export const NavigationItems: NavigationItem[] = [
     children: [
       {
         id: 'sample-page',
-        title: 'Sample Page',
+        title: 'Chat',
         type: 'item',
         url: '/sample-page',
         classes: 'nav-item',
         icon: 'chrome'
       },
-      {
-        id: 'document',
-        title: 'Document',
-        type: 'item',
-        classes: 'nav-item',
-        url: 'https://codedthemes.gitbook.io/mantis-angular/',
-        icon: 'question',
-        target: true,
-        external: true
-      }
     ]
   }
 ];

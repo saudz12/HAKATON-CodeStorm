@@ -18,7 +18,7 @@ const routes: Routes = [
       },
       {
         path: 'dashboard/default',
-        loadComponent: () => import('./demo/dashboard/default/default.component').then((c) => c.DefaultComponent)
+        loadComponent: () => import('./demo/dashboard/default/default.component').then((c) => c.AuthLoginComponent)
       },
       {
         path: 'typography',
@@ -40,7 +40,7 @@ const routes: Routes = [
     children: [
       {
         path: 'login',
-        loadComponent: () => import('./demo/pages/authentication/auth-login/auth-login.component').then((c) => c.AuthLoginComponent)
+        loadComponent: () => import('./demo/pages/authentication/auth-login/courses.component').then((c) => c.CoursesComponent)
       },
       {
         path: 'register',

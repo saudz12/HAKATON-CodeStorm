@@ -1,0 +1,16 @@
+<div class="courses-page">
+  <header class="page-header">
+    <h1>Cursuri de Facultate</h1>
+
+    <h2>Alege cursul dorit pentru a vedea documentele aferente.</h2>
+  </header>
+  <div class="courses-grid">
+    <div class="course-card" *ngFor="let course of courses" (click)="openCourse(course)">
+      <img [src]="course.image" alt="{{ course.title }}" class="course-image" />
+      <div class="course-details">
+        <h2 class="course-title">{{ course.title }}</h2>
+        <p class="course-description">{{ course.description }}</p>
+      </div>
+    </div>
+  </div>
+</div>
