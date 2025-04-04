@@ -1,0 +1,15 @@
+<div class="chat-container">
+  <div class="chat-header">
+    <h2>Chat </h2>
+  </div>
+  <div class="chat-messages">
+    <!-- Aici se vor afișa mesajele (ex. folosind *ngFor în componentă) -->
+    <app-card *ngFor="let msg of messages" cardTitle="Utilizator">
+      <p>{{ msg }}</p>
+    </app-card>
+  </div>
+  <div class="chat-input">
+    <input type="text" [(ngModel)]="message" placeholder="Scrie ceva..." />
+    <button (click)="sendMessage()">Trimite</button>
+  </div>
+</div>
