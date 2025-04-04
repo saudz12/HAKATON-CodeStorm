@@ -91,14 +91,14 @@ def get_course():
 @app.route('/course', methods=['POST'])
 def post_course():
     data = request.get_json() or {}
-    nume = data.get("nume", "").strip()
-    disciplina = data.get("disciplina", "").strip()
+    nume = data.get("name", "").strip()
+    disciplina = data.get("discipline", "").strip()
     if not nume or not disciplina:
         return jsonify({"status": "error", "message": "Parametrii 'nume' și 'disciplina' sunt necesari."}), 400
 
     course = {
-        "nume": nume,
-        "disciplina": disciplina,
+        "name": nume,
+        "discipline": disciplina,
         "description": data.get("description", "")
     }
     result = courses_collection.insert_one(course)
