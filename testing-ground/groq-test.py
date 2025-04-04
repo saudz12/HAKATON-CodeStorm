@@ -1,6 +1,6 @@
 from groq import Groq
 
-client = Groq(api_key="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")
+client = Groq(api_key="")
 
 response = client.chat.completions.create(
     model="llama3-70b-8192",

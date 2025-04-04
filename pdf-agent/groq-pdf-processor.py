@@ -117,7 +117,7 @@ Answer the question based ONLY on the information provided in the context. If th
 # Example usage
 if __name__ == "__main__":
     # Initialize with your API key
-    api_key = os.environ.get("GROQ_API_KEY", "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")
+    api_key = os.environ.get("GROQ_API_KEY", "")
     qa_system = PDFContextQA(api_key)
     
     # Load PDF
