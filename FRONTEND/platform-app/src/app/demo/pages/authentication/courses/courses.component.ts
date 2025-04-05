@@ -15,7 +15,6 @@ export class CoursesComponent {
 onAddCourse() {
 
 }
-  // curs.title='./assets/pdfs/math1.pdf';
   courses:any[]=
   [
     {
