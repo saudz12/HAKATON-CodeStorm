@@ -1,70 +1,66 @@
 import json
-import mongomock
+from pymongo import MongoClient
 
-# Creăm un client MongoDB "fake" în memorie
-client = mongomock.MongoClient()
+# Conectare la MongoDB local
+try:
+    client = MongoClient("mongodb://localhost:27017/")
+    db = client["databaseAPI"]
+    print("Conexiune la MongoDB reușită!")
+except Exception as e:
+    print("Eroare la conectarea la MongoDB:", e)
 
-# Creăm baza de date existentă
-db = client["myDatabase"]
-
-# Creăm colecțiile deja existente
+# Definirea colecțiilor existente
 users_collection = db["users"]
 courses_collection = db["courses"]
 specializations_collection = db["specializations"]
 lectures_collection = db["lectures"]
 chat_prompts_collection = db["chatPrompts"]
 
-# Lista de lecții și PDF-uri pentru fiecare curs
-courses_with_lectures_and_pdfs = {
-    101: [  # Cursul cu ID-ul 101
-        {
-            "lectureName": "Matematica",
-            "pdfs": [
-                {"pdfTitle": "Algebra", "pdfPath": "./pdfs/algebra.pdf"},
-                {"pdfTitle": "Complex numbers", "pdfPath": "./pdfs/ComplexNumbers.pdf"}
-            ]
-        },
-        {
-            "lectureName": "Informatica",
-            "pdfs": [
-                {"pdfTitle": "Data Structures", "pdfPath": "./pdfs/DataStructure.pdf"},
-                {"pdfTitle": "Sorting", "pdfPath": "./pdfs/Sorting.pdf"},
-            ]
-        }
-    ]
+# Lista de PDF-uri pentru fiecare curs, în funcție de domeniu
+courses_with_pdfs = {
+    101: {  # Cursul de matematică (Matematica)
+        "courseName": "Matematica",
+        "pdfs": [
+            {"pdfTitle": "Algebra", "pdfPath": "./pdfs/Algebra.pdf"},
+            {"pdfTitle": "Geometry", "pdfPath": "./pdfs/Geometry.pdf"}
+        ]
+    },
+    102: {  # Cursul de informatică
+        "courseName": "Informatica",
+        "pdfs": [
+            {"pdfTitle": "Data structures", "pdfPath": "./pdfs/DataStructure.pdf"},
+            {"pdfTitle": "Sorting algorithms", "pdfPath": "./pdfs/Structure.pdf"}
+        ]
+    }
 }
 
-# Inserăm documente de exemplu în colecțiile existente (aceasta este aceeași logică ca înainte)
+# Inserăm un document exemplu în colecția "users"
 user_document = {
     "userID": 1,
-    "firstName" : "Andrei",
-    "lastName" : "Arustei",
-    "company" : "UNITBV",
+    "firstName": "Andrei",
+    "lastName": "Arustei",
+    "company": "UNITBV",
     "email": "andrei@gmail.com",
     "password": "secret123"
 }
 users_collection.insert_one(user_document)
 
-course_document = {
-    "courseID": 101,
-    "courseName": "Introducere în Matematică",
-    "specializationID": 201
-}
-courses_collection.insert_one(course_document)
-
-# Adăugăm lecțiile și PDF-urile pentru fiecare curs
-for course_id, lectures in courses_with_lectures_and_pdfs.items():
-    # Găsim cursul pe baza ID-ului
-    course = courses_collection.find_one({"courseID": course_id})
+# Inserăm documente pentru cursuri, cu PDF-uri
+for course_id, course_data in courses_with_pdfs.items():
+    course_document = {
+        "courseID": course_id,
+        "courseName": course_data["courseName"],
+        "specializationID": 201  # Exemplu: asociem cursul cu o specializare
+    }
     
-    if course:
-        # Dacă cursul există, adăugăm sau actualizăm lecțiile și PDF-urile asociate
-        courses_collection.update_one(
-            {"courseID": course_id},  # Căutăm cursul după ID
-            {"$set": {"lectures": lectures}}   # Setăm lecțiile și PDF-urile pentru curs
-        )
-    else:
-        print(f"Cursul cu ID-ul {course_id} nu a fost găsit.")
+    # Inserăm cursul în colecția "courses"
+    courses_collection.insert_one(course_document)
+    
+    # Actualizăm cursul cu PDF-urile asociate
+    courses_collection.update_one(
+        {"courseID": course_id},  # Căutăm cursul după ID
+        {"$set": {"pdfs": course_data["pdfs"]}}   # Setăm PDF-urile pentru curs
+    )
 
 # Construim un dicționar care să conțină datele tuturor colecțiilor
 database_dict = {}
@@ -81,4 +77,4 @@ for collection_name in db.list_collection_names():
 with open("databaseAPI.json", "w", encoding="utf-8") as f:
     json.dump(database_dict, f, ensure_ascii=False, indent=4)
 
-print("Baza de date a fost actualizată cu lecții și PDF-uri pentru fiecare curs și salvată în 'database_dump.json'.")
+print("Baza de date a fost actualizată cu PDF-uri pentru fiecare curs și salvată în 'databaseAPI.json'.")

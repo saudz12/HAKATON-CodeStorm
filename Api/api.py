@@ -5,7 +5,7 @@ from bson.objectid import ObjectId
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from Model.agent import AiResponse
+from Model.educator_agent.combined_agent import CombinedEducationalAgent
 
 app = Flask(__name__)
 CORS(app)  # Permite cereri din orice origine
@@ -233,37 +233,61 @@ def post_lecture():
 @app.route('/sample-page', methods=['POST'])
 def post_chat_prompt():
     try:
+        # Preluăm datele din corpul cererii (JSON)
         data = request.get_json(force=True)
         print("=== JSON PRIMIT ===", data)
 
         chat_text = data.get("chat") if data else None
-        
+        course_id = data.get("course_id") if data else None
+        pdf_id = data.get("pdf_id") if data else None
+        print(pdf_id)
+        # Verificăm dacă datele esențiale sunt furnizate
         if not isinstance(chat_text, str) or not chat_text.strip():
             return jsonify({"status": "error", "message": "Textul este necesar."}), 400
-        
         chat_text = chat_text.strip()
         print("=== Text preprocesat ===", chat_text)
 
-        ai_response = ai.ask_question(chat_text)
+        pdf_path = None
+        pdf = None  
+        # Extragem cursul selectat din baza de date pe baza course_id
+        if course_id:
+            # Căutăm cursul în colecția de cursuri
+            course = courses_collection.find_one({"courseID": course_id})
+            if course:
+                print(f"Curs găsit: {course['courseName']}")
+                # Găsim PDF-ul asociat în lecțiile cursului pe baza pdf_id
+                if pdf_id is not None:
+                    pdf = next((pdf for index, pdf in enumerate(course.get('pdfs', [])) if index == pdf_id), None)
+                    if pdf:
+                        print(f"PDF găsit: {pdf['pdfTitle']} - {pdf['pdfPath']}")
+                        pdf_path = pdf
 
-        if not ai_response:
-            return jsonify({"status": "error", "message": "Răspuns invalid de la AI."}), 500
+        print("here")
+        if pdf is not None :
+            ai.load_pdf(pdf_path=pdf_path)
+            print(pdf)
 
-        print("=== Răspuns AI ===", ai_response)
-
+        ai_response = ai.query(chat_text)
+        print(ai_response['answer'])
+        resp = ai_response['answer']
+        # Creăm prompt-ul de chat
         chat_prompt = {
             "chat": chat_text,
-            "ai_response": ai_response
+            "ai_response": resp
         }
 
+        # Inserăm prompt-ul de chat în colecția de chat
         result = chat_prompts_collection.insert_one(chat_prompt)
         inserted_id = str(result.inserted_id)
 
+        # Returnăm un răspuns de succes
         return jsonify({
             "status": "success",
             "message": "Chat prompt adăugat și procesat de AI.",
             "prompt_id": inserted_id,
-            "ai_response": ai_response
+            "ai_response": resp,
+            "course_id": course_id,
+            "pdf_id": pdf_id
         })
 
     except Exception as e:
@@ -272,5 +296,5 @@ def post_chat_prompt():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='127.0.0.1', port=5000)
+    app.run(threaded=True,debug=True, host='127.0.0.1', port=5000)
 

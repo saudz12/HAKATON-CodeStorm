@@ -1,21 +1,79 @@
 {
     "users": [
         {
+            "_id": "67f06f6830d81555a9178f52",
+            "email": "andrei@samsung.com",
+            "password": "1234",
+            "company": "",
+            "firstName": "andrei",
+            "lastName": "arustei"
+        },
+        {
+            "_id": "67f0ef4bd70555f442a72d08",
+            "email": "arusteiandrew@gmail.com",
+            "password": "1234",
+            "company": "",
+            "firstName": "",
+            "lastName": ""
+        },
+        {
+            "_id": "67f0fe5fb6ad5bc9934dd2d4",
+            "email": "ceva@samsung.com",
+            "password": "1234",
+            "company": "",
+            "firstName": "andrei",
+            "lastName": "da",
+            "userType": ""
+        },
+        {
+            "_id": "67f0ff6e9092bac11fb6db28",
             "userID": 1,
             "firstName": "Andrei",
             "lastName": "Arustei",
             "company": "UNITBV",
             "email": "andrei@gmail.com",
-            "password": "secret123",
-            "_id": "67f0fcb470275799a7e5a848"
+            "password": "secret123"
+        },
+        {
+            "_id": "67f10088b8f4f7d7ab954701",
+            "userID": 1,
+            "firstName": "Andrei",
+            "lastName": "Arustei",
+            "company": "UNITBV",
+            "email": "andrei@gmail.com",
+            "password": "secret123"
+        }
+    ],
+    "chatPrompts": [
+        {
+            "_id": "67f0e7fa5fba9b2e48f0095e",
+            "chat": "In ce an suntem?",
+            "ai_response": "Suntem in anul 2021."
+        },
+        {
+            "_id": "67f0f3098c89ee58b40e9672",
+            "chat": "cate laturi are un triunghi",
+            "ai_response": "Un triunghi are trei laturi."
         }
     ],
     "courses": [
         {
+            "_id": "67f073f375e16f02a7ba5240",
+            "courseID": "231",
+            "courseName": "mate",
+            "specializationID": 0
+        },
+        {
+            "_id": "67f0f1e49c08ca3d0bc8b8fe",
+            "courseID": "2",
+            "courseName": "info",
+            "specializationID": 0
+        },
+        {
+            "_id": "67f0ff6e9092bac11fb6db29",
             "courseID": 101,
             "courseName": "Introducere în Matematică",
             "specializationID": 201,
-            "_id": "67f0fcb470275799a7e5a849",
             "lectures": [
                 {
                     "lectureName": "Matematica",
@@ -42,6 +100,38 @@
                             "pdfPath": "./pdfs/Sorting.pdf"
                         }
                     ]
+                }
+            ],
+            "pdfs": [
+                {
+                    "pdfTitle": "Algebra",
+                    "pdfPath": "./pdfs/Algebra.pdf"
+                },
+                {
+                    "pdfTitle": "Geometry",
+                    "pdfPath": "./pdfs/Geometry.pdf"
+                }
+            ]
+        },
+        {
+            "_id": "67f10088b8f4f7d7ab954702",
+            "courseID": 101,
+            "courseName": "Matematica",
+            "specializationID": 201
+        },
+        {
+            "_id": "67f10088b8f4f7d7ab954703",
+            "courseID": 102,
+            "courseName": "Informatica",
+            "specializationID": 201,
+            "pdfs": [
+                {
+                    "pdfTitle": "Data structures",
+                    "pdfPath": "./pdfs/DataStructure.pdf"
+                },
+                {
+                    "pdfTitle": "Sorting algorithms",
+                    "pdfPath": "./pdfs/Structure.pdf"
                 }
             ]
         }
