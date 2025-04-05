@@ -21,13 +21,11 @@ onAddCourse() {
     {
       courseName:'Matematică',
       description:'',
-      image:'',
       pdfs:[{path:'./assets/docs/Algebra.pdf', name:'Algebra'},{path:'./assets/docs/ComplexNumbers.pdf', name:'Complex Numbers'}, {path:'./assets/docs/Geometry.pdf', name:'Geometry'}]
     },
     {
       courseName:'Informatică',
       description:'',
-      image:'',
       pdfs:[{path:'./assets/docs/DataStructure.pdf', name:'Data Structures'}, {path:'./assets/docs/LiniarRegression.pdf', name:'Liniar Regression'}, {path:'./assets/docs/Sorting.pdf', name:'Sorting'}]
     },
     {
