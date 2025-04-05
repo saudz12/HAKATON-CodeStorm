@@ -1,11 +1,11 @@
 import os
 from openai import OpenAI
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict, Any, Tuple
 
 class AiResponse:
     """
     A class to interact with OpenAI's API for generating responses to questions.
-    Basic implementation for testing API key functionality.
+    Modified to work better with a Flask API.
     """
     
     def __init__(self, api_key: Optional[str] = None):
@@ -93,6 +93,52 @@ class AiResponse:
             return response.choices[0].message.content
         except Exception as e:
             return f"Error when calling OpenAI API: {str(e)}"
+    
+    def full_response(self, question: str, context: Optional[str] = None, 
+                      system_prompt: Optional[str] = None) -> Dict[str, Any]:
+        """
+        Get a full response with metadata included.
+        
+        Args:
+            question: The question to ask.
+            context: Optional additional context.
+            system_prompt: Optional system prompt.
+            
+        Returns:
+            Dictionary containing the response and metadata.
+        """
+        messages = []
+        
+        # Add system prompt if provided
+        if system_prompt:
+            messages.append({"role": "system", "content": system_prompt})
+        
+        # Add context if provided
+        if context:
+            messages.append({"role": "system", "content": f"Here is some context: {context}"})
+        
+        # Add user question
+        messages.append({"role": "user", "content": question})
+        
+        try:
+            response = self.client.chat.completions.create(
+                model=self.model,
+                messages=messages
+            )
+            
+            return {
+                "text": response.choices[0].message.content,
+                "model": self.model,
+                "completion_id": response.id,
+                "usage": {
+                    "prompt_tokens": response.usage.prompt_tokens,
+                    "completion_tokens": response.usage.completion_tokens,
+                    "total_tokens": response.usage.total_tokens
+                },
+                "finish_reason": response.choices[0].finish_reason
+            }
+        except Exception as e:
+            return {"error": str(e)}
 
 
 # Example usage
@@ -101,9 +147,9 @@ if __name__ == "__main__":
     # api_key = "your-api-key-here"
     
     # Create an instance of AiResponse
-    ai = AiResponse(api_key='insert key here')  # Will use OPENAI_API_KEY environment variable
+    ai = AiResponse(api_key='api_key')  # Will use OPENAI_API_KEY environment variable
     
     # Ask a simple question to test the API key
-    question = "What is the capital of France?"
+    question = "What is a good roadmap for data science?"
     print(f"Question: {question}")
     print(f"Response: {ai.ask_question(question)}")
