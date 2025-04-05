@@ -13,4 +13,13 @@
       </div>
     </div>
   </div>
+
+  <div *ngIf="selectedCourse" class="pdf-list">
+		<h3>Documente pentru {{ selectedCourse.title }}</h3>
+		<ul>
+			<li *ngFor="let file of selectedCourse.files">
+				<a [href]="file.path" target="_blank">{{ file.name }}</a>
+			</li>
+		</ul>
+	</div>
 </div>

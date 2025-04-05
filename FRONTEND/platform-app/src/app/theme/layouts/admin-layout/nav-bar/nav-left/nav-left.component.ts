@@ -1,7 +1,7 @@
 // Angular import
 import { CommonModule } from '@angular/common';
 import { Component, inject, input, output } from '@angular/core';
-
+import { RouterModule } from '@angular/router';
 // project import
 
 // icons
@@ -10,7 +10,8 @@ import { MenuUnfoldOutline, MenuFoldOutline, SearchOutline } from '@ant-design/i
 
 @Component({
   selector: 'app-nav-left',
-  imports: [IconDirective, CommonModule],
+  standalone: true, 
+  imports: [IconDirective, CommonModule, RouterModule],
   templateUrl: './nav-left.component.html',
   styleUrls: ['./nav-left.component.scss']
 })

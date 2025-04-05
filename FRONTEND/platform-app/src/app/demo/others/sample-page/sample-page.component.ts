@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http'; // importă HttpClient
+import { HttpClient } from '@angular/common/http'; 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CardComponent } from 'src/app/theme/shared/components/card/card.component';
@@ -14,7 +14,7 @@ export class ChatComponent {
   message = '';
   messages: string[] = [];
 
-  // Injectează HttpClient
+  
   constructor(private http: HttpClient) {}
 
   sendMessage() {

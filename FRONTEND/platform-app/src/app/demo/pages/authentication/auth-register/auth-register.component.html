@@ -2,8 +2,9 @@
   <div class="auth-wrapper v3">
     <div class="auth-form">
       <div class="auth-header">
-        <a href="javascript:"><img src="assets/images/logo-dark.svg" alt="logo img" /></a>
+        <a href="javascript:"><img src="assets/images/SMARLEARN.png" alt="logo img" class="logo" /></a>
       </div>
+
       <div class="card my-5">
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-end mb-4">
@@ -14,36 +15,30 @@
             <div class="col-md-6">
               <div class="form-group mb-3">
                 <label class="form-label" for="firstName">First Name*</label>
-                <input type="text" class="form-control" id="firstName" placeholder="First Name" />
+                <input type="text" class="form-control" id="firstName" placeholder="First Name" [(ngModel)]="firstName" />
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group mb-3">
                 <label class="form-label" for="lastName">Last Name*</label>
-                <input type="text" class="form-control" id="lastName" placeholder="Last Name" />
+                <input type="text" class="form-control" id="lastName" placeholder="Last Name" [(ngModel)]="lastName" />
               </div>
             </div>
           </div>
           <div class="form-group mb-3">
             <label class="form-label" for="company">Company</label>
-            <input type="text" class="form-control" id="company" placeholder="Company" />
+            <input type="text" class="form-control" id="company" placeholder="Company"  [(ngModel)]="company"/>
           </div>
           <div class="form-group mb-3">
             <label class="form-label" for="emailAddress">Email Address*</label>
-            <input type="email" class="form-control" id="emailAddress" placeholder="Email Address" />
+            <input type="email" class="form-control" id="emailAddress" placeholder="student@uni.com" [(ngModel)]="email" />
           </div>
           <div class="form-group mb-3">
             <label class="form-label" for="password">Password</label>
-            <input type="password" class="form-control" id="password" placeholder="Password" />
+            <input type="password" class="form-control" id="password" placeholder="Password" [(ngModel)]="password" />
           </div>
-          <p class="mt-4 text-sm text-muted">
-            By Signing up, you agree to our
-            <a href="javascript:" class="text-primary">Terms of Service</a>
-            and
-            <a href="javascript:" class="text-primary">Privacy Policy</a>
-          </p>
           <div class="d-grid mt-3">
-            <button type="button" class="btn btn-primary">Create Account</button>
+            <button type="button" class="btn btn-primary" (click)="onRegister()">Create Account</button>
           </div>
           <div class="saprator mt-3">
             <span>Sign up with</span>

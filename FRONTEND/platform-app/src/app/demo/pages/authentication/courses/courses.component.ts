@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-courses',
-  standalone: true,
+  //standalone: true,
   imports: [CommonModule],
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss']
@@ -17,9 +17,9 @@ export class CoursesComponent {
       title: 'Matematică 1',
       description: 'Curs de matematică pentru inginerie',
       image: 'assets/images/math-course.jpg',
-      documents: [
-        { name: 'Cursul 1', url: 'assets/docs/math-course1.pdf' },
-        { name: 'Cursul 2', url: 'assets/docs/math-course2.pdf' }
+      files: [
+        { name: 'Cursul 1', path: 'assets/docs/math1.pdf' },
+        { name: 'Cursul 2', path: 'assets/docs/math2.pdf' }
       ]
     },
     {
@@ -27,18 +27,20 @@ export class CoursesComponent {
       title: 'Fizică',
       description: 'Curs de fizică generală',
       image: 'assets/images/physics-course.jpg',
-      documents: [
-        { name: 'Cursul 1', url: 'assets/docs/physics-course1.pdf' },
-        { name: 'Cursul 2', url: 'assets/docs/physics-course2.pdf' }
+      files: [
+        { name: 'Cursul 1', path: 'assets/docs/physics-course1.pdf' },
+        { name: 'Cursul 2', path: 'assets/docs/physics-course2.pdf' }
       ]
     }
     //mai multe cursuri
   ];
 
+  selectedCourse: any = null;
   constructor(private router: Router) {}
   
   openCourse(course: any) {
     //console.log('Înscriere pentru:', course.title);
-    this.router.navigate(['/courses', course.id]);
+    //this.router.navigate(['/courses', course.id]);
+    this.selectedCourse=course;
   }
 }

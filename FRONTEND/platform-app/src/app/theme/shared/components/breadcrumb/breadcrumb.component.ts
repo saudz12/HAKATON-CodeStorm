@@ -24,6 +24,7 @@ interface titleType {
 
 @Component({
   selector: 'app-breadcrumb',
+  standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './breadcrumb.component.html',
   styleUrls: ['./breadcrumb.component.scss']
@@ -34,7 +35,7 @@ export class BreadcrumbComponent {
   private iconService = inject(IconService);
 
   // public props
-  @Input() type: string;
+  @Input() type!: string;
   dashboard = input(true);
   Component = input(false);
 
@@ -60,7 +61,7 @@ export class BreadcrumbComponent {
         const breadcrumbList = this.filterNavigation(this.navigations, activeLink);
         this.navigationList = breadcrumbList;
         const title = breadcrumbList[breadcrumbList.length - 1]?.title || 'Welcome';
-        this.titleService.setTitle(title + ' | Mantis  Angular Admin Template');
+        this.titleService.setTitle(title + ' | AISchool  Angular Admin Template');
       }
     });
   }

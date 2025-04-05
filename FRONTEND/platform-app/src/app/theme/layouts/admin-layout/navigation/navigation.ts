@@ -47,9 +47,9 @@ export const NavigationItems: NavigationItem[] = [
         title: 'Cursuri',
         type: 'item',
         classes: 'nav-item',
-        url: '/login',
+        url: '/dashboard/courses',
         icon: 'login',
-        target: true,
+        target: false,
         breadcrumbs: false
       },
     ]
@@ -96,12 +96,13 @@ export const NavigationItems: NavigationItem[] = [
     icon: 'icon-navigation',
     children: [
       {
-        id: 'sample-page',
+        id: 'chat',
         title: 'Chat',
         type: 'item',
-        url: '/sample-page',
+        url: 'chat',
         classes: 'nav-item',
-        icon: 'chrome'
+        icon: 'chrome',
+        target:false
       },
     ]
   }
