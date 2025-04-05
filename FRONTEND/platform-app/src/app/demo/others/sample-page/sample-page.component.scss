@@ -43,3 +43,34 @@
   .chat-input button:hover {
     background-color: #0056b3;
   }
+  
+  
+.icon-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 1000;  /* Asigură-te că iconița este deasupra altor elemente */
+}
+
+
+.textbox-container {
+  position: fixed;
+  top: 70px; /* Poziționează textul sub iconiță */
+  right: 20px;
+  width: 300px;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 999; /* Asigură-te că textul este deasupra altor elemente */
+}
+
+
+.textbox-container p {
+  font-size: 16px;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}

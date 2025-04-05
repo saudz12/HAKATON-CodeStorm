@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ChatService {
-  private apiUrl = 'http://localhost:5000/api/messages'; // URL pentru preluarea mesajelor
+  private apiUrl = 'http://localhost:5000/api/sample-page'; // URL pentru preluarea mesajelor
   private sendMessageUrl = 'http://localhost:5000/sample-page'; // URL pentru trimiterea mesajului
 
   constructor(private http: HttpClient) {}
@@ -17,7 +17,7 @@ export class ChatService {
   }
 
   // Metoda pentru trimiterea mesajelor
-  sendMessage(message: string): Observable<any> {
-    return this.http.post(this.sendMessageUrl, { chat: message });
+  sendMessage(message: string, courseId:number, pdfId:number): Observable<any> {
+    return this.http.post(this.sendMessageUrl, { chat: message, course_id: courseId, pdf_id:pdfId});
   }
 }

@@ -12,4 +12,26 @@
     <input type="chat" [(ngModel)]="message" placeholder="Scrie ceva..." />
     <button (click)="sendMessage()">Trimite</button>
   </div>
+
+  <button>
+    <button (click)="sendMessage1('mode qa')">Use QA Mode</button>
+  </button>
+
+  <button>
+    <button (click)="sendMessage1('mode guide')">Use Guide Mode</button>
+  </button>
+
+  <div class="icon-container">
+    <i class="fa fa-pencil" (click)="toggleTextbox()"></i> 
+  </div>
+  
+  <div class="textbox-container" *ngIf="isTextboxVisible">
+    <p>Educational AI Assistant
+      This application has two modes:
+      1. Guide Mode: Helps solve problems without giving direct answers
+         2.  QA Mode: Answers questions based on PDF content
+      mode guide     - Switch to educational guidance mode
+      mode qa        - Switch to question answering mode 
+      Type the command in the chat to change the mode!</p> 
+  </div>
 </div>

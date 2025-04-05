@@ -9,8 +9,13 @@ import { CardComponent } from 'src/app/theme/shared/components/card/card.compone
   imports: [CommonModule, CardComponent, FormsModule],
   templateUrl: './sample-page.component.html',
   styleUrls: ['./sample-page.component.scss']
+  
 })
 export class ChatComponent implements OnInit {
+  isTextboxVisible = false;
+  toggleTextbox()
+   {this.isTextboxVisible = !this.isTextboxVisible;}
+
   message = '';
   messages: string[] = [];
 
@@ -32,10 +37,11 @@ export class ChatComponent implements OnInit {
       // Adaugă mesajul în lista de mesaje local
       this.messages.push(this.message);
 
-      // Trimite mesajul către API-ul Flask folosind ChatService (sau HttpClient direct dacă nu ai în ChatService un endpoint)
-      this.chatService.sendMessage(this.message).subscribe(
+      // Trimite mesajul către API-ul Flask folosind ChatService 
+      this.chatService.sendMessage(this.message, 102, 0).subscribe(
         (response) => {
           console.log('Mesaj trimis cu succes către API:', response);
+          this.messages.push(response.ai_response)
         },
         (error) => {
           console.error('Eroare la trimiterea mesajului:', error);
@@ -45,5 +51,18 @@ export class ChatComponent implements OnInit {
       // Resetează input-ul
       this.message = '';
     }
+  }
+
+  sendMessage1(mode:string ): void 
+  {
+    this.chatService.sendMessage(mode, 102, 0).subscribe(
+      (response) => {
+        console.log('Mesaj trimis cu succes către API:', response);
+        // this.messages.push(response.ai_response)
+      },
+      (error) => {
+        console.error('Eroare la trimiterea mesajului:', error);
+      }
+    );
   }
 }
