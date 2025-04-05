@@ -38,7 +38,7 @@ export class ChatComponent implements OnInit {
       this.messages.push(this.message);
 
       // Trimite mesajul către API-ul Flask folosind ChatService 
-      this.chatService.sendMessage(this.message, 102, 0).subscribe(
+      this.chatService.sendMessage(this.message, 102, 2).subscribe(
         (response) => {
           console.log('Mesaj trimis cu succes către API:', response);
           this.messages.push(response.ai_response)
@@ -55,7 +55,7 @@ export class ChatComponent implements OnInit {
 
   sendMessage1(mode:string ): void 
   {
-    this.chatService.sendMessage(mode, 102, 0).subscribe(
+    this.chatService.sendMessage(mode, 102, 2).subscribe(
       (response) => {
         console.log('Mesaj trimis cu succes către API:', response);
         // this.messages.push(response.ai_response)

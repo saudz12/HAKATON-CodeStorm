@@ -13,9 +13,31 @@ import { HttpClient } from '@angular/common/http';
 
 export class CoursesComponent {
 onAddCourse() {
-throw new Error('Method not implemented.');
+
 }
-  courses:any[] = [];
+  // curs.title='./assets/pdfs/math1.pdf';
+  courses:any[]=
+  [
+    {
+      courseName:'Matematică',
+      description:'',
+      image:'',
+      pdfs:[{path:'./assets/docs/Algebra.pdf', name:'Algebra'},{path:'./assets/docs/ComplexNumbers.pdf', name:'Complex Numbers'}, {path:'./assets/docs/Geometry.pdf', name:'Geometry'}]
+    },
+    {
+      courseName:'Informatică',
+      description:'',
+      image:'',
+      pdfs:[{path:'./assets/docs/DataStructure.pdf', name:'Data Structures'}, {path:'./assets/docs/LiniarRegression.pdf', name:'Liniar Regression'}, {path:'./assets/docs/Sorting.pdf', name:'Sorting'}]
+    },
+    {
+      courseName:'Fizică',
+      description:'',
+      image:'',
+      pdfs:['','']
+    },
+  ];
+  
   userType:string='';
 
   selectedCourse: any = null;
@@ -27,15 +49,16 @@ throw new Error('Method not implemented.');
     this.selectedCourse=course;
   }
 
-  ngOnInit():void{
-    this.http.get<any>('http://127.0.0.1:5000/dashboard/courses').subscribe({
-			next: (response) => {
-				console.log('Date cursuri:', response);
-				this.courses = response.courses; // ia din răspunsul JSON
-			},
-			error: (err) => {
-				console.error('Eroare la încărcarea cursurilor:', err);
-			}
-		});
-  }
+  // ngOnInit():void{
+  //   this.http.get<any>('http://127.0.0.1:5000/dashboard/courses').subscribe({
+	// 		next: (response) => {
+	// 			console.log('Date cursuri:', response);
+	// 			this.courses = response.courses; // ia din răspunsul JSON
+	// 		},
+	// 		error: (err) => {
+	// 			console.error('Eroare la încărcarea cursurilor:', err);
+	// 		}
+	// 	});
+  // }
+ 
 }
