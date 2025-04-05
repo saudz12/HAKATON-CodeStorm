@@ -6,16 +6,16 @@
   </header>
   <div class="courses-grid">
     <div class="course-card" *ngFor="let course of courses" (click)="openCourse(course)">
-      <img [src]="course.image" alt="{{ course.title }}" class="course-image" />
+      <img [src]="course.image" alt="{{ course.courseName }}" class="course-image" />
       <div class="course-details">
-        <h2 class="course-title">{{ course.title }}</h2>
+        <h2 class="course-title">{{ course.courseName }}</h2>
         <p class="course-description">{{ course.description }}</p>
       </div>
     </div>
   </div>
 
   <div *ngIf="selectedCourse" class="pdf-list">
-		<h3>Documente pentru {{ selectedCourse.title }}</h3>
+		<h3>Documente pentru {{ selectedCourse.courseName }}</h3>
 		<ul>
 			<li *ngFor="let file of selectedCourse.files">
 				<a [href]="file.path" target="_blank">{{ file.name }}</a>

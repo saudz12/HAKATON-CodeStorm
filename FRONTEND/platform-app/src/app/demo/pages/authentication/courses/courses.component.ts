@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-courses',
@@ -11,36 +12,26 @@ import { Router } from '@angular/router';
 })
 
 export class CoursesComponent {
-  courses = [
-    {
-      id: 1,
-      title: 'Matematică 1',
-      description: 'Curs de matematică pentru inginerie',
-      image: 'assets/images/math-course.jpg',
-      files: [
-        { name: 'Cursul 1', path: 'assets/docs/math1.pdf' },
-        { name: 'Cursul 2', path: 'assets/docs/math2.pdf' }
-      ]
-    },
-    {
-      id: 2,
-      title: 'Fizică',
-      description: 'Curs de fizică generală',
-      image: 'assets/images/physics-course.jpg',
-      files: [
-        { name: 'Cursul 1', path: 'assets/docs/physics-course1.pdf' },
-        { name: 'Cursul 2', path: 'assets/docs/physics-course2.pdf' }
-      ]
-    }
-    //mai multe cursuri
-  ];
+  courses:any[] = [];
 
   selectedCourse: any = null;
-  constructor(private router: Router) {}
+  constructor(private router: Router, private http:HttpClient) {}
   
   openCourse(course: any) {
     //console.log('Înscriere pentru:', course.title);
     //this.router.navigate(['/courses', course.id]);
     this.selectedCourse=course;
+  }
+
+  ngOnInit():void{
+    this.http.get<any>('http://127.0.0.1:5000/api/courses').subscribe({
+			next: (response) => {
+				console.log('Date cursuri:', response);
+				this.courses = response.courses; // ia din răspunsul JSON
+			},
+			error: (err) => {
+				console.error('Eroare la încărcarea cursurilor:', err);
+			}
+		});
   }
 }
