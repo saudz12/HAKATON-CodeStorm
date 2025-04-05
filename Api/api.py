@@ -2,9 +2,22 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from pymongo import MongoClient
 from bson.objectid import ObjectId
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from Model.agent import AiResponse
 
 app = Flask(__name__)
 CORS(app)  # Permite cereri din orice origine
+
+UPLOAD_FOLDER = 'uploads/'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# Asigurăm că folderul există
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+
+ai = AiResponse(api_key='key')
 
 try:
     client = MongoClient("mongodb://localhost:27017/")
@@ -81,8 +94,8 @@ def get_user():
 
 # ---------------------- Endpoint-uri pentru cursuri ----------------------
 
-@app.route('/courses', methods=['GET'])
-def get_courses():
+@app.route('/dashboard/courses', methods=['GET'])
+def get_courses():  
     courses = list(courses_collection.find())
     for course in courses:
         course["_id"] = str(course["_id"])
@@ -160,6 +173,35 @@ def post_specialization():
 
 # ---------------------- Endpoint-uri pentru prelegeri ----------------------
 
+@app.route('/upload-pdf', methods=['POST'])
+def upload_pdf():
+    try:
+        # 1. Verificăm dacă cererea conține fișierul PDF
+        if 'file' not in request.files:
+            return jsonify({"status": "error", "message": "Fișierul nu a fost trimis."}), 400
+
+        file = request.files['file']
+
+        # 2. Verificăm dacă fișierul are extensia corectă
+        if file.filename == '':
+            return jsonify({"status": "error", "message": "Numele fișierului este gol."}), 400
+
+        if not file.filename.lower().endswith('.pdf'):
+            return jsonify({"status": "error", "message": "Fișierul nu este un PDF valid."}), 400
+
+        # 3. Salvăm fișierul pe server (sau îl procesăm dacă e necesar)
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+        file.save(filepath)
+
+        # 4. Poți adăuga orice procesare a fișierului PDF aici (de exemplu, extragerea de text, etc.)
+
+        # 5. Răspuns JSON cu mesaj
+        return jsonify({"status": "success", "message": "Fișierul PDF a fost încărcat cu succes."}), 200
+
+    except Exception as e:
+        # 6. Gestionarea erorilor
+        return jsonify({"status": "error", "message": f"Eroare la procesarea fișierului: {str(e)}"}), 500
+
 @app.route('/lectures', methods=['GET'])
 def get_lectures():
     lectures = list(lectures_collection.find())
@@ -190,43 +232,44 @@ def post_lecture():
 @app.route('/sample-page', methods=['POST'])
 def post_chat_prompt():
     try:
-        chat_prompts = chat_prompts_collection.find()
-
-        # Convertește rezultatele într-o listă de dicționare pentru a le putea trimite ca răspuns
-        result = []
-        for prompt in chat_prompts:
-            prompt['_id'] = str(prompt['_id'])  # Convertim _id într-un string pentru a-l trimite ca JSON
-            result.append(prompt)
-        print(result)
-        
-        print("✅ Request primit")
-        data = request.get_json(force=True)  # force = încearcă să decodeze chiar dacă headerul e greșit
+        data = request.get_json(force=True)
         print("=== JSON PRIMIT ===", data)
 
         chat_text = data.get("chat") if data else None
+        
         if not isinstance(chat_text, str) or not chat_text.strip():
             return jsonify({"status": "error", "message": "Textul este necesar."}), 400
-
-        chat_prompt = {"chat": chat_text.strip()}
-        print("=== Prompt de inserat ===", chat_prompt)
-
-        # Inserează în colecție
-        result = chat_prompts_collection.insert_one(chat_prompt)
         
-        # Extrage doar ID-ul
+        chat_text = chat_text.strip()
+        print("=== Text preprocesat ===", chat_text)
+
+        ai_response = ai.ask_question(chat_text)
+
+        if not ai_response:
+            return jsonify({"status": "error", "message": "Răspuns invalid de la AI."}), 500
+
+        print("=== Răspuns AI ===", ai_response)
+
+        chat_prompt = {
+            "chat": chat_text,
+            "ai_response": ai_response
+        }
+
+        result = chat_prompts_collection.insert_one(chat_prompt)
         inserted_id = str(result.inserted_id)
-        print(f"✅ Inserare reușită cu ID: {inserted_id}")
 
         return jsonify({
             "status": "success",
-            "message": "Chat prompt adăugat.",
-            "prompt_id": inserted_id  # Returnează doar ID-ul ca string
+            "message": "Chat prompt adăugat și procesat de AI.",
+            "prompt_id": inserted_id,
+            "ai_response": ai_response
         })
+
     except Exception as e:
         print("❌ Eroare:", e)
         return jsonify({"status": "error", "message": f"Eroare la salvare: {str(e)}"}), 500
 
+
 if __name__ == '__main__':
-    db.chatPrompts.find()
     app.run(debug=True, host='127.0.0.1', port=5000)
 
