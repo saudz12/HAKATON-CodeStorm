@@ -117,11 +117,12 @@ Answer the question based ONLY on the information provided in the context. If th
 # Example usage
 if __name__ == "__main__":
     # Initialize with your API key
-    api_key = os.environ.get("GROQ_API_KEY", "api-key")
+    #api_key = os.environ.get("GROQ_API_KEY", "api-key")
+    api_key = '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'
     qa_system = PDFContextQA(api_key)
     
     # Load PDF
-    qa_system.load_pdf("file-path")
+    qa_system.load_pdf("C:\\Users\\Saud Shaikh\\Downloads\\sodapdf-converted.pdf")
     
     # Ask questions
     while True:

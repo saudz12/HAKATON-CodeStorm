@@ -1,0 +1,7 @@
+python -m educator_agent.combined_agent
+python -m educator_agent.text_guide_interactive
+
+C:\Users\Saud Shaikh\Downloads\sodapdf-converted.pdf
+D:\UNIV\ANUL_II\RC - Retele de Calculatoare\Curs_2_RC.pdf
+python -m Model.educator_agent.text_guide_interactive
+
