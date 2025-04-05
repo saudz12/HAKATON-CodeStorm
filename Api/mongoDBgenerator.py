@@ -19,7 +19,10 @@ chat_prompts_collection = db["chatPrompts"]
 # Colecția users: userID, username, password
 user_document = {
     "userID": 1,
-    "username": "john_doe",
+    "firstName" : "Andrei",
+    "lastName" : "Arustei",
+    "company" : "UNITBV",
+    "email": "andrei@gmail.com",
     "password": "secret123"
 }
 users_collection.insert_one(user_document)
@@ -63,7 +66,7 @@ for collection_name in db.list_collection_names():
     database_dict[collection_name] = documents
 
 # Salvăm baza de date (datele) într-un fișier JSON
-with open("database_dump.json", "w", encoding="utf-8") as f:
+with open("databaseAPI.json", "w", encoding="utf-8") as f:
     json.dump(database_dict, f, ensure_ascii=False, indent=4)
 
 print("Baza de date a fost generată și salvată în 'database_dump.json'.")

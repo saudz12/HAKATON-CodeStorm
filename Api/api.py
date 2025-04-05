@@ -8,7 +8,7 @@ CORS(app)  # Permite cereri din orice origine
 
 try:
     client = MongoClient("mongodb://localhost:27017/")
-    db = client["database"]
+    db = client["databaseAPI"]
     print("Conexiune la MongoDB reușită!")
 except Exception as e:
     print("Eroare la conectarea la MongoDB:", e)
@@ -22,21 +22,24 @@ chat_prompts_collection = db["chatPrompts"]  # Documente: { "chat": <str> }
 
 # ---------------------- Endpoint-uri pentru utilizatori ----------------------
 
-@app.route('/register', methods=['POST'])
+@app.route('/dashboard/default/register', methods=['POST'])
 def register():
     data = request.get_json() or {}
-    username = data.get("username", "").strip()
+    email = data.get("email", "").strip()
     password = data.get("password", "").strip()
-    
-    if not username or not password:
-        return jsonify({"status": "error", "message": "Username și parolă sunt necesare."}), 400
+    firstName = data.get("firstName","").strip()
+    lastName = data.get("lastName","").strip()
+    company = data.get("company","").strip()
+
+    if not email or not password:
+        return jsonify({"status": "error", "message": "Email și parolă sunt necesare."}), 400
 
     # Verifică dacă utilizatorul există deja
-    if users_collection.find_one({"username": username}):
+    if users_collection.find_one({"email": email}):
         return jsonify({"status": "error", "message": "Utilizatorul există deja."}), 400
 
     # Pentru identificare se poate folosi fie un ID generat automat, fie un userID definit
-    user = {"username": username, "password": password}
+    user = {"email": email, "password": password,"company":company, "firstName": firstName, "lastName": lastName}
     result = users_collection.insert_one(user)
     return jsonify({
         "status": "success",
@@ -44,21 +47,21 @@ def register():
         "user_id": str(result.inserted_id)
     })
 
-@app.route('/login', methods=['POST'])
+@app.route('/dashboard/default/login', methods=['POST'])
 def login():
     data = request.get_json() or {}
-    username = data.get("username", "").strip()
+    email = data.get("email", "").strip()
     password = data.get("password", "").strip()
+    if not email or not password:
+        return jsonify({"status": "error", "message": "Email și parolă sunt necesare."}), 400
 
-    if not username or not password:
-        return jsonify({"status": "error", "message": "Username și parolă sunt necesare."}), 400
+    user = users_collection.find_one({"email": email})
 
-    user = users_collection.find_one({"username": username})
     if user and user.get("password") == password:
         return jsonify({
             "status": "success",
             "message": "Autentificare reușită.",
-            "user": {"username": username}
+            "user": {"email": email}
         })
     else:
         return jsonify({"status": "error", "message": "Credentiale invalide."}), 401
@@ -115,8 +118,7 @@ def post_course():
     course = {
         "courseID": course_id,
         "courseName": course_name,
-        "specializationID": specialization_id,
-        "description": data.get("description", "")
+        "specializationID": 0,
     }
     result = courses_collection.insert_one(course)
     return jsonify({
@@ -188,6 +190,15 @@ def post_lecture():
 @app.route('/sample-page', methods=['POST'])
 def post_chat_prompt():
     try:
+        chat_prompts = chat_prompts_collection.find()
+
+        # Convertește rezultatele într-o listă de dicționare pentru a le putea trimite ca răspuns
+        result = []
+        for prompt in chat_prompts:
+            prompt['_id'] = str(prompt['_id'])  # Convertim _id într-un string pentru a-l trimite ca JSON
+            result.append(prompt)
+        print(result)
+        
         print("✅ Request primit")
         data = request.get_json(force=True)  # force = încearcă să decodeze chiar dacă headerul e greșit
         print("=== JSON PRIMIT ===", data)
@@ -199,20 +210,23 @@ def post_chat_prompt():
         chat_prompt = {"chat": chat_text.strip()}
         print("=== Prompt de inserat ===", chat_prompt)
 
+        # Inserează în colecție
         result = chat_prompts_collection.insert_one(chat_prompt)
+        
+        # Extrage doar ID-ul
+        inserted_id = str(result.inserted_id)
+        print(f"✅ Inserare reușită cu ID: {inserted_id}")
 
         return jsonify({
             "status": "success",
             "message": "Chat prompt adăugat.",
-            "prompt_id": str(result.inserted_id)
+            "prompt_id": inserted_id  # Returnează doar ID-ul ca string
         })
     except Exception as e:
         print("❌ Eroare:", e)
         return jsonify({"status": "error", "message": f"Eroare la salvare: {str(e)}"}), 500
 
-
-
 if __name__ == '__main__':
-    print(app.url_map)
+    db.chatPrompts.find()
     app.run(debug=True, host='127.0.0.1', port=5000)
 
