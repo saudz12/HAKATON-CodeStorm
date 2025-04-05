@@ -18,7 +18,7 @@ def main():
     if not api_key:
         api_key = input("Please enter your OpenAI API key: ")
         os.environ["OPENAI_API_KEY"] = api_key
-        
+    
     agent = EducationalAiAgent()
     
     # Optional: Set a different model if needed
@@ -28,7 +28,7 @@ def main():
     print("Educational AI Assistant")
     print("Ask questions to get guided learning assistance. Type 'exit' to quit.")
     print("=" * 60)
-    
+     
     # Keep track of the conversation history
     conversation_history = []
     
@@ -46,7 +46,7 @@ def main():
         else:
             # Continue the conversation with history
             response = agent.continue_guidance(question, conversation_history)
-        
+     
         # Display the response
         print("\nAI Assistant:")
         print(response)
@@ -54,6 +54,6 @@ def main():
         # Update conversation history for context in the next iteration
         conversation_history.append({"role": "user", "content": question})
         conversation_history.append({"role": "assistant", "content": response})
-
+         
 if __name__ == "__main__":
     main()
