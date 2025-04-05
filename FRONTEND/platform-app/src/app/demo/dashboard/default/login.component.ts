@@ -1,9 +1,9 @@
-
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-auth-login',
@@ -16,6 +16,24 @@ export class AuthLoginComponent {
   email: string = '';
   password: string = '';
   errorMessage: string = '';
+  
+  constructor(private authService: AuthService, private router: Router) {}
+
+  // Metodă apelată la click pe butonul de login
+  onLogin(): void {
+    this.authService.login(this.email, this.password).subscribe({
+      next: (response) => {
+        console.log('Login successful:', response);
+        // Aici poți redirecționa utilizatorul, de exemplu:
+        this.router.navigate(['/dashboard']);
+      },
+      error: (error) => {
+        console.error('Login error:', error);
+        this.errorMessage = error.error.error || 'Login failed';
+      }
+    });
+  }
+
   SignInOptions = [
     {
       image: 'assets/images/authentication/google.svg',
@@ -30,20 +48,4 @@ export class AuthLoginComponent {
       name: 'Facebook'
     }
   ];
-  constructor(private authService: AuthService) {}
-
-  // Metodă apelată la click pe butonul de login
-  onLogin(): void {
-    this.authService.login(this.email, this.password).subscribe({
-      next: (response) => {
-        console.log('Login successful:', response);
-        // Aici poți redirecționa utilizatorul, de exemplu:
-        // this.router.navigate(['/dashboard']);
-      },
-      error: (error) => {
-        console.error('Login error:', error);
-        this.errorMessage = error.error.error || 'Login failed';
-      }
-    });
-  }
 }

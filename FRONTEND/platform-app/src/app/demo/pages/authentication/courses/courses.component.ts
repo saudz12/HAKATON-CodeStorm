@@ -24,7 +24,7 @@ export class CoursesComponent {
   }
 
   ngOnInit():void{
-    this.http.get<any>('http://127.0.0.1:5000/api/courses').subscribe({
+    this.http.get<any>('http://127.0.0.1:5000/dashboard/courses').subscribe({
 			next: (response) => {
 				console.log('Date cursuri:', response);
 				this.courses = response.courses; // ia din răspunsul JSON
