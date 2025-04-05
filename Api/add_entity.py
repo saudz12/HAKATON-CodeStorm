@@ -5,7 +5,7 @@ import mongomock
 client = mongomock.MongoClient()
 
 # Creăm baza de date existentă
-db = client["databaseAPI"]
+db = client["myDatabase"]
 
 # Creăm colecțiile deja existente
 users_collection = db["users"]

@@ -7,7 +7,7 @@
             "company": "UNITBV",
             "email": "andrei@gmail.com",
             "password": "secret123",
-            "_id": "67f0fa7523570d547d121965"
+            "_id": "67f0fcb470275799a7e5a848"
         }
     ],
     "courses": [
@@ -15,7 +15,7 @@
             "courseID": 101,
             "courseName": "Introducere în Matematică",
             "specializationID": 201,
-            "_id": "67f0fa7523570d547d121966",
+            "_id": "67f0fcb470275799a7e5a849",
             "lectures": [
                 {
                     "lectureName": "Matematica",

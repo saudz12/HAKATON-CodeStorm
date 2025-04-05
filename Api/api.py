@@ -43,6 +43,7 @@ def register():
     firstName = data.get("firstName","").strip()
     lastName = data.get("lastName","").strip()
     company = data.get("company","").strip()
+    userType = data.get("userType","").strip()
 
     if not email or not password:
         return jsonify({"status": "error", "message": "Email și parolă sunt necesare."}), 400
@@ -52,7 +53,7 @@ def register():
         return jsonify({"status": "error", "message": "Utilizatorul există deja."}), 400
 
     # Pentru identificare se poate folosi fie un ID generat automat, fie un userID definit
-    user = {"email": email, "password": password,"company":company, "firstName": firstName, "lastName": lastName}
+    user = {"email": email, "password": password,"company":company, "firstName": firstName, "lastName": lastName , "userType": userType}
     result = users_collection.insert_one(user)
     return jsonify({
         "status": "success",
