@@ -1,0 +1,49 @@
+{
+    "users": [
+        {
+            "userID": 1,
+            "firstName": "Andrei",
+            "lastName": "Arustei",
+            "company": "UNITBV",
+            "email": "andrei@gmail.com",
+            "password": "secret123",
+            "_id": "67f0fa7523570d547d121965"
+        }
+    ],
+    "courses": [
+        {
+            "courseID": 101,
+            "courseName": "Introducere în Matematică",
+            "specializationID": 201,
+            "_id": "67f0fa7523570d547d121966",
+            "lectures": [
+                {
+                    "lectureName": "Matematica",
+                    "pdfs": [
+                        {
+                            "pdfTitle": "Algebra",
+                            "pdfPath": "./pdfs/algebra.pdf"
+                        },
+                        {
+                            "pdfTitle": "Complex numbers",
+                            "pdfPath": "./pdfs/ComplexNumbers.pdf"
+                        }
+                    ]
+                },
+                {
+                    "lectureName": "Informatica",
+                    "pdfs": [
+                        {
+                            "pdfTitle": "Data Structures",
+                            "pdfPath": "./pdfs/DataStructure.pdf"
+                        },
+                        {
+                            "pdfTitle": "Sorting",
+                            "pdfPath": "./pdfs/Sorting.pdf"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
