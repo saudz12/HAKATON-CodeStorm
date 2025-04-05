@@ -12,6 +12,9 @@
         <p class="course-description">{{ course.description }}</p>
       </div>
     </div>
+    <button *ngIf="userType === 'Professor'" class="btn btn-success" (click)="onAddCourse()">
+      <i class="bi bi-upload"></i> Adaugă curs din laptop
+    </button>
   </div>
 
   <div *ngIf="selectedCourse" class="pdf-list">

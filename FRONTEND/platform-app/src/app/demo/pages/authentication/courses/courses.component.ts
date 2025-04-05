@@ -12,7 +12,11 @@ import { HttpClient } from '@angular/common/http';
 })
 
 export class CoursesComponent {
+onAddCourse() {
+throw new Error('Method not implemented.');
+}
   courses:any[] = [];
+  userType:string='';
 
   selectedCourse: any = null;
   constructor(private router: Router, private http:HttpClient) {}

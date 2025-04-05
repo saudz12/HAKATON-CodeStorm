@@ -20,6 +20,7 @@ export class AuthRegisterComponent {
 	password = '';
 	errorMessage = '';
 	successMessage = '';
+	userType: string='';
 
   constructor(private authService: AuthService, private router: Router) {}
   onRegister(): void {
@@ -28,7 +29,8 @@ export class AuthRegisterComponent {
 			lastName: this.lastName,
 			company: this.company,
 			email: this.email,
-			password: this.password
+			password: this.password, 
+			userType: this.userType
 		};
 
 		this.authService.register(data.email, data.password).subscribe({
